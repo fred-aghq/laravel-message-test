@@ -58,7 +58,7 @@ class MessageController extends Controller
 
         $message->sent = Carbon::now();
         $message->save();
-        return response($message, 200);
+        return redirect('/messages');
     }
 
     /**
@@ -69,7 +69,7 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        return view('messages.show', ['message' => Message::findOrFail($id)]);
+        //
     }
 
     /**
@@ -97,7 +97,7 @@ class MessageController extends Controller
         }
 
         $message->save();
-        return redirect('/messages');
+        return back();
     }
 
     /**
@@ -107,6 +107,14 @@ class MessageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        //
+    }
+
+    /**
+     * Display the view for editing an existing resource.
+     */
+    public function edit()
     {
         //
     }
