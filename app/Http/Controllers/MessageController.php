@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -20,6 +21,8 @@ class MessageController extends Controller
             $messages->whereNull('read');
             $messages->whereNull('archived');
         }
+
+        $messages->orderBy('sent', 'DESC');
 
         return view('messages.index', ['messages' => $messages->get()->toArray()]);
     }
