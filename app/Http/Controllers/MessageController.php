@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class MessageController extends Controller
 {
@@ -77,7 +78,23 @@ class MessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $inputData = $request->validate([
+            'archive' => ['sometimes', Rule::in([0,1])],
+            'read'=> ['sometimes', Rule::in([0,1])],
+        ]);
+
+        $message = Message::findOrFail($id);
+
+        if (array_key_exists('archive', $inputData)) {
+            $message->archived = (int) $inputData['archive'] === 1 ? Carbon::now() : null;
+        }
+
+        if (array_key_exists('read', $inputData)) {
+            $message->read = (int) $inputData['read'] === 1 ? Carbon::now() : null;
+        }
+
+        $message->save();
+        return redirect('/messages');
     }
 
     /**
