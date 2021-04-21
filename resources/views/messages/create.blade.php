@@ -1,7 +1,12 @@
-@error('subject')
-@enderror
-@error('body')
-@enderror
+@if ($errors->any())
+    <div class="bg-red-500 text-white text-xl">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 @include('header')
 <div class="container mx-auto">
     <div class="mx-auto max-w-lg">
@@ -12,11 +17,11 @@
                 @csrf
                 <div class="p-3">
                     <h1 class="inline">Subject:</h1>
-                    <input name="subject" class="border-gray-200 border-2" size="32" maxlength="20" type="text"/>
+                    <input value="{{ old('subject') }}" name="subject" class="border-gray-200 border-2" size="32" maxlength="20" type="text"/>
                 </div>
                 <div class="p-3">
                     <h1>Message:</h1>
-                    <textarea name="body" cols="50" rows="10"></textarea>
+                    <textarea name="body" cols="50" rows="10">{{ old('body') }}</textarea>
                 </div>
                 <div class="p-3">
                     <button type="submit">GO</button>
