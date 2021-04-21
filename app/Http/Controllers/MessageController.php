@@ -19,8 +19,11 @@ class MessageController extends Controller
         $messages = Message::query();
 
         if ((int) $request->get('all') !== 1) {
-            $messages->whereNull('read');
             $messages->whereNull('archived');
+        }
+
+        if ((int) $request->get('unread') === 1) {
+            $messages->whereNull('read');
         }
 
         $messages->orderBy('sent', 'DESC');
